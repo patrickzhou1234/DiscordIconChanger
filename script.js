@@ -12,26 +12,27 @@
 
 /* global Swal */
 
+if (localStorage.getItem("DiscordIconChanger") != null) {
+    setTimeout(() => {
+        var injectHTML = '<img src="' + localStorage.getItem("DiscordIconChanger") + '" width="48" alt="App Icon" draggable="false"></div>';
+        document.querySelectorAll("foreignobject")[0].childNodes[0].childNodes[0].innerHTML = injectHTML;
+    }, 5000);
+}
+
 setInterval(() => {
     document.querySelectorAll("div").forEach((el) => {
         if (el.className.includes("appIconSelectionContainer")) {
             el.onclick = (event) => {
-                var injectHTML =
-                    '<img src="' +
-                    event.target.childNodes[0].childNodes[0].src +
-                    '" width="48" alt="App Icon" draggable="false"></div>';
-                document.querySelectorAll(
-                    "foreignobject",
-                )[0].childNodes[0].childNodes[0].innerHTML = injectHTML;
+                var injectHTML = '<img src="' + event.target.childNodes[0].childNodes[0].src + '" width="48" alt="App Icon" draggable="false"></div>';
+                document.querySelectorAll("foreignobject")[0].childNodes[0].childNodes[0].innerHTML = injectHTML;
                 Swal.fire({
                     title: "Icon Changed!",
-                    text:
-                        "Icon changed to " +
-                        event.target.childNodes[0].getAttribute("aria-label"),
+                    text: "Icon changed to " + event.target.childNodes[0].getAttribute("aria-label"),
                     icon: "success",
                     background: "black",
                     color: "white",
                 });
+                localStorage.setItem("DiscordIconChanger", event.target.childNodes[0].childNodes[0].src);
             };
             el.style.cursor = "pointer";
         }
